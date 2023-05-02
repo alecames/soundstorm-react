@@ -1,6 +1,9 @@
-import React from "react";
+interface CardProps {
+	title: string;
+	content: string;
+}
 
-const Card = ({ title, content }) => (
+const Card = ({ title, content }: CardProps) => (
 	<div className="card">
 		<div>
 			<a className="play" href="javascript:void()">
@@ -19,7 +22,7 @@ const Card = ({ title, content }) => (
 					placeholder="Write a comment..."
 				/>
 				<span className="material-symbols-rounded icon">favorite</span>
-				<span className="material-symbols-rounded icon">comment</span>
+				<span className="material-symbols-rounded icon">repeat</span>
 				<span className="material-symbols-rounded icon">share</span>
 				<span className="material-symbols-rounded icon">more_vert</span>
 			</div>

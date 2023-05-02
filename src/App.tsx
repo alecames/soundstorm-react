@@ -1,4 +1,3 @@
-import React from "react";
 import Card from "./lib/Card";
 import "./styles.sass";
 
@@ -41,39 +40,39 @@ const Main = () => {
 	const cards = [
 		{
 			title: "The Caracal Project - The lights on your face.",
-			content: "[waveform]",
+			content: "Description",
 		},
 		{
 			title: "Sam Gellaitry & PinkPantheress - Picture in my mind",
-			content: "[waveform]",
+			content: "Description",
 		},
 		{
 			title: "DROELOE - Sunburn",
-			content: "[waveform]",
+			content: "Description",
 		},
 		{
 			title: "Sam Gelaitry - Assumptions",
-			content: "[waveform]",
+			content: "Description",
 		},
 		{
 			title: "DROELOE & IMANU - Catalyst",
-			content: "[waveform]",
+			content: "Description",
 		},
 		{
 			title: "Skrillex & Joker & Sleepnet - Tears",
-			content: "[waveform]",
+			content: "Description",
 		},
 		{
 			title: "CASIOPEA - Time Limit",
-			content: "[waveform]",
+			content: "Description",
 		},
 		{
 			title: "CASIOPEA - Midnight Rendezvous",
-			content: "[waveform]",
+			content: "Description",
 		},
 		{
 			title: "CASIOPEA - Asayake",
-			content: "[waveform]",
+			content: "Description",
 		},
 	];
 
