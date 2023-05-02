@@ -1,0 +1,148 @@
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0")
+
+$background: #121212
+$primary: #161616
+$secondary: #202020
+$border: #404040
+$accent: #9264ff
+$accent-light: lighten($accent, 5%)
+$accent-lighter: lighten($accent-light, 10%)
+$hover-accent: mix($accent, transparent, 20%)
+$click-accent: mix($accent, transparent, 70%)
+
+$curve: cubic-bezier(0.08, 0.84, 0.1, 0.97)
+
+.material-symbols-rounded
+	user-select: none !important
+
+.sidebar
+	width: 200px
+	height: 100%
+	position: fixed
+	left: 0
+	top: 0
+	background-color: $background
+	display: flex
+	flex-direction: column
+	padding: 20px
+	border-right: 1px solid $border
+
+	&-item
+		padding: 10px
+		margin-bottom: 10px
+		cursor: pointer
+		border-radius: 7px
+		transition: background-color 0.5s $curve
+
+	&-item:hover
+		background-color: $hover-accent
+
+	&-item:active
+		background-color: $click-accent
+
+	&-subitem
+		padding: 5px 10px 5px 30px
+		margin-bottom: 7px
+		cursor: pointer
+		transition: background-color 0.2s $curve
+		border-radius: 7px
+
+	&-subitem:hover
+		background-color: $hover-accent
+
+	&-subitem:active
+		background-color: $click-accent
+
+.logo-container
+	padding: 10px
+	display: flex
+	justify-content: center
+	align-items: center
+	margin-bottom: 20px
+
+.main
+	margin-left: 240px
+
+.logo-line
+	border: none
+	width: 80%
+	border-top: 1px solid $border
+	margin-bottom: 20px
+
+.header
+	background: $background
+
+	h1
+		padding: 0 3rem
+
+	&::after
+		content: ""
+		display: block
+		clear: both
+		border-bottom: 1px solid $border
+
+// card.tsx
+.card-container
+	display: flex
+	flex-wrap: wrap
+	gap: 2rem
+	padding: 3rem
+
+.card
+	display: flex
+	flex-direction: row
+	justify-content: left
+	gap: 2rem
+	align-items: center
+	scroll-snap-align: center
+	flex: 0 0 auto
+	width: calc(100% - 5rem)
+	margin-right: 20px
+	padding: 20px
+	background-color: $primary
+	border: 1px solid $border
+	border-radius: 12px
+	transition: background-color 0.3s $curve
+
+	.content
+		width: 100%
+
+	.interactions
+		display: flex
+		gap: 1rem
+		flex-direction: row
+		justify-content: right
+		align-items: center
+
+	.comments
+		display: flex
+		width: calc(100% - 2rem)
+		background: $background
+		padding: 1rem
+		border-radius: 7px
+		flex-direction: row
+		justify-content: left
+		align-items: center
+		outline: none
+		border: 1px solid $border
+
+	&:hover
+		background-color: $secondary
+
+	&:hover .comments
+		background-color: $primary
+
+.icon
+	color: $accent
+	transition: all 0.3s $curve
+	cursor: pointer
+
+	&:hover
+		color: $accent-light
+		scale: 1.1
+
+	&:active
+		color: $accent-lighter
+
+.play-icon
+	font-size: 3rem
