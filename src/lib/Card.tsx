@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect, useRef } from "react";
 import pb from "./pocketbase";
 
@@ -7,8 +9,16 @@ interface CardProps {
 	setCurrentTrack: (track: any) => void;
 }
 
+interface Comment {
+	id: string;
+	content: string;
+	track: string;
+	created: string; // Add the created property
+	likes: number; // Add the likes property
+}
+
 const Card = ({ track, currentTrack, setCurrentTrack }: CardProps) => {
-	const [comments, setComments] = useState([]);
+	const [comments, setComments] = useState<Comment[]>([]);
 	const [likes, setLikes] = useState(track.likes);
 	const [views, setViews] = useState(track.views);
 	const [playing, setPlaying] = useState(false);
@@ -20,10 +30,20 @@ const Card = ({ track, currentTrack, setCurrentTrack }: CardProps) => {
 				sort: "-created",
 				filters: { track: track.id },
 			});
-			setComments(fetchedComments);
+
+			// Map the fetched comments to the Comment type
+			const commentsList: Comment[] = fetchedComments.map((comment: any) => ({
+				id: comment.id,
+				content: comment.content,
+				track: comment.track,
+				created: comment.created,
+				likes: comment.likes,
+			}));
+
+			setComments(commentsList);
 		};
 		fetchComments();
-	}, []);
+	}, [track.id]);
 
 	useEffect(() => {
 		if (audioElement.current) {
@@ -57,10 +77,6 @@ const Card = ({ track, currentTrack, setCurrentTrack }: CardProps) => {
 		}
 		setPlaying((prevState) => !prevState);
 		setCurrentTrack({ id: track.id, audioElement });
-
-		const updatedTrack = await pb.collection("tracks").update(track.id, {
-			views: track.views + 1,
-		});
 		setViews(views + 1);
 	};
 
@@ -84,7 +100,7 @@ const Card = ({ track, currentTrack, setCurrentTrack }: CardProps) => {
 		}
 	};
 
-	const formatTime = (time: number) => {
+	const formatTime = (time: string) => {
 		const date = new Date(time);
 		const now = new Date();
 		const diff = now.getTime() - date.getTime();
@@ -117,9 +133,6 @@ const Card = ({ track, currentTrack, setCurrentTrack }: CardProps) => {
 	};
 
 	const likeTrack = async () => {
-		const updatedTrack = await pb.collection("tracks").update(track.id, {
-			likes: track.likes + 1,
-		});
 		setLikes(likes + 1);
 	};
 
@@ -129,7 +142,6 @@ const Card = ({ track, currentTrack, setCurrentTrack }: CardProps) => {
 		await pb
 			.collection("comments")
 			.create({ track: track.id, content: newComment });
-		setComments([...comments, { content: newComment }]);
 		e.currentTarget.comment.value = "";
 	};
 
@@ -165,12 +177,12 @@ const Card = ({ track, currentTrack, setCurrentTrack }: CardProps) => {
 							{comments.map((comment) => (
 								<div className="comment">
 									<div className="comment-inside">
-										<p>{comment.content}</p>
+										<p>{comment?.content}</p>
 										<p> • {formatTime(comment.created)} </p>
 									</div>
 
 									<div className="like-container">
-										<p>{comment.likes == 0 ? "" : comment.likes}</p>
+										<p>{comment?.likes == 0 ? "" : comment?.likes}</p>
 										<span className="material-symbols-rounded icon like-thumb">
 											thumb_up
 										</span>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import Card from "./lib/Card";
 import pb from "./lib/pocketbase";
 import "./styles.sass";
@@ -41,22 +41,34 @@ const Sidebar = () => {
 	);
 };
 
-const tracks = await pb
-	.collection("tracks")
-	.getFullList({ sort: "-created", expand: "users(name).author" } as any);
-
 const Main = () => {
+	const [tracks, setTracks] = useState([]);
 	const [currentTrack, setCurrentTrack] = useState(null);
+	const [scrolled, setScrolled] = useState(false);
+
+	useEffect(() => {
+		const fetchTracks = async () => {
+			const fetchedTracks = await pb
+				.collection("tracks")
+				.getFullList({ sort: "-created", expand: "users(name).author" } as any);
+			setTracks(fetchedTracks as any);
+		};
+
+		fetchTracks();
+	}, []);
+
+	window.addEventListener("scroll", () => {
+		setScrolled(window.scrollY > 0);
+	});
 
 	return (
 		<div className="main">
-			<div className="header">
+			<div className={`header ${scrolled ? "scrolled" : ""}`}>
 				<h1>Home</h1>
 			</div>
 			<div className="card-container">
-				{tracks.map((track, index) => (
+				{tracks.map((track) => (
 					<Card
-						key={track.id}
 						track={track}
 						currentTrack={currentTrack}
 						setCurrentTrack={setCurrentTrack}
