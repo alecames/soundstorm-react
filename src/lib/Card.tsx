@@ -13,8 +13,8 @@ interface Comment {
 	id: string;
 	content: string;
 	track: string;
-	created: string; // Add the created property
-	likes: number; // Add the likes property
+	created: string;
+	likes: number;
 }
 
 const Card = ({ track, currentTrack, setCurrentTrack }: CardProps) => {
@@ -31,7 +31,6 @@ const Card = ({ track, currentTrack, setCurrentTrack }: CardProps) => {
 				filters: { track: track.id },
 			});
 
-			// Map the fetched comments to the Comment type
 			const commentsList: Comment[] = fetchedComments.map((comment: any) => ({
 				id: comment.id,
 				content: comment.content,
