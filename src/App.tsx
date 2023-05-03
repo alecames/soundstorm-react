@@ -1,15 +1,18 @@
+import React, { useState } from "react";
 import Card from "./lib/Card";
+import pb from "./lib/pocketbase";
 import "./styles.sass";
 
 const Sidebar = () => {
 	const items = [
-		{ label: "HOME" },
+		{ label: "HOME", href: "/" },
 		{
 			label: "PLAYLISTS",
+			href: "/playlists",
 			subItems: ["JAMS", "WORKOUT", "BACKGROUND", "CHILL", "JAZZ"],
 		},
-		{ label: "SETTINGS" },
-		{ label: "MY ACCOUNT" },
+		{ label: "SETTINGS", href: "/settings" },
+		{ label: "MY ACCOUNT", href: "/myaccount" },
 	];
 
 	return (
@@ -20,7 +23,9 @@ const Sidebar = () => {
 			<hr className="logo-line" />
 			{items.map((item, index) => (
 				<div key={index}>
-					<div className="sidebar-item">{item.label}</div>
+					<div className="sidebar-item">
+						<a href={item.href}>{item.label}</a>
+					</div>
 					{item.subItems && (
 						<div className="sub-items">
 							{item.subItems.map((subItem, subIndex) => (
@@ -36,54 +41,26 @@ const Sidebar = () => {
 	);
 };
 
+const tracks = await pb
+	.collection("tracks")
+	.getFullList({ sort: "-created", expand: "users(name).author" } as any);
+
 const Main = () => {
-	const cards = [
-		{
-			title: "The Caracal Project - The lights on your face.",
-			content: "Description",
-		},
-		{
-			title: "Sam Gellaitry & PinkPantheress - Picture in my mind",
-			content: "Description",
-		},
-		{
-			title: "DROELOE - Sunburn",
-			content: "Description",
-		},
-		{
-			title: "Sam Gelaitry - Assumptions",
-			content: "Description",
-		},
-		{
-			title: "DROELOE & IMANU - Catalyst",
-			content: "Description",
-		},
-		{
-			title: "Skrillex & Joker & Sleepnet - Tears",
-			content: "Description",
-		},
-		{
-			title: "CASIOPEA - Time Limit",
-			content: "Description",
-		},
-		{
-			title: "CASIOPEA - Midnight Rendezvous",
-			content: "Description",
-		},
-		{
-			title: "CASIOPEA - Asayake",
-			content: "Description",
-		},
-	];
+	const [currentTrack, setCurrentTrack] = useState(null);
 
 	return (
 		<div className="main">
 			<div className="header">
-				<h1>For You</h1>
+				<h1>Home</h1>
 			</div>
 			<div className="card-container">
-				{cards.map((card, index) => (
-					<Card key={index} title={card.title} content={card.content} />
+				{tracks.map((track, index) => (
+					<Card
+						key={track.id}
+						track={track}
+						currentTrack={currentTrack}
+						setCurrentTrack={setCurrentTrack}
+					/>
 				))}
 			</div>
 		</div>
